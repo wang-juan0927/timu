@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src='https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js'></script>
+  <style>
+    #edit {
+      display: none;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: gray;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    #edit_box {
+      width: 30vw;
+      border: 1px solid #000;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      display: none;
+    }
+
+    #header {
+      height: 50px;
+      background: blueviolet;
+    }
+
+    td {
+      border: 1px solid #000;
+    }
+
+    td input {
+      width: 100%;
+      /* height: 100%; */
+      outline: 0;
+      border: none
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    #edit_box span {
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      font-size: 25px;
+      cursor: pointer;
+      color: blueviolet;
+    }
+
+    button {
+      background-color: blueviolet;
+      /* Green */
+      border: none;
+      color: white;
+      padding: 6px 16px;
+      text-align: center;
+      /* text-decoration: none;
+      display: inline-block; */
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div id='myCharts' style="width: 100%; height: 100vh;"></div>
+  <!-- 编辑按钮 -->
+  <span id='edit'>编辑</span>
+
+  <!-- 图表对话框 -->
+  <div id='edit_box'>
+    <div id='header'>图表编辑</div>
+    标题:
+    <input type="text" id='title' />
+    <span id='add'>+</span>
+    <span id='del'>-</span>
+    <table>
+      <tr>
+        <td>选项</td>
+        <td>选项名</td>
+        <td>值</td>
+      </tr>
+      <tr>
+        <td>
+          <input id='input' type="checkbox">
+        </td>
+        <td>
+          <input id='name' type="text">
+        </td>
+        <td>
+          <input id='num' type="text">
+        </td>
+      </tr>
+    </table>
+    <button class="cancle">取消</button>
+    <button class="ok">确定</button>
+  </div>
+  <script src="./echarts.min.js"></script>
+
+  <script>
+    var myChart = echarts.init(document.getElementById('myCharts'));
+    option = {
+      title: {
+        text: '某站点用户访问来源',
+        subtext: '纯属虚构',
+        x: 'center'
+      },
+      tooltip: {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
+      },
+      legend: {
+        orient: 'vertical',
+        left: 'left',
+        data: ['苹果', '梨子', '香蕉']
+      },
+      series: [{
+        name: '访问来源',
+        type: 'pie',
+        radius: '55%',
+        center: ['50%', '60%'],
+        data: [{
+            value: 335,
+            name: '苹果'
+          },
+          {
+            value: 310,
+            name: '梨子'
+          },
+          {
+            value: 234,
+            name: '香蕉'
+          },
+
+        ],
+        itemStyle: {
+          emphasis: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.5)'
+          }
+        }
+      }]
+    };
+    myChart.setOption(option);
+
+
+    // 右击出现编辑按钮
+    myCharts.oncontextmenu = function (e) {
+      // 阻止默认事件
+      e.preventDefault();
+      $('#edit').css({
+        'display': 'block'
+      });
+      var e = e || window.event;
+      // 鼠标的坐标
+      var ox = e.clientX;
+      var oy = e.clientY;
+      $('#edit').css({
+        'left': ox + 'px'
+      });
+      $('#edit').css({
+        'top': oy + 'px'
+      });
+    }
+
+    // 点击编辑弹出对话框
+    $('#edit').click(function () {
+      $('#edit_box').css({
+        'display': 'block'
+      });
+      $('#edit').css({
+        'display': 'none'
+      });
+    })
+
+    //  点击确定按钮
+    $('.ok').click(function () {
+      $('#edit_box').css('display','none');
+      if ($('#input').prop('checked')) {
+        var val = $('#name').val();
+        myChart.setOption({
+          title: {
+            text:'标题...'
+          },
+          series: {
+            data: [{
+            value: 55,
+            name: 'wj'
+          },{
+            value: 45,
+            name: 'zz'
+          }]
+          }
+        })
+      }
+    })
+  </script>
+</body>
+
+</html>
