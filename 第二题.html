@@ -88,13 +88,13 @@
     <input type="text" id='title' />
     <span id='add'>+</span>
     <span id='del'>-</span>
-    <table>
+    <table id="table">
       <tr>
         <td>选项</td>
         <td>选项名</td>
         <td>值</td>
       </tr>
-      <tr>
+      <tr class="tr">
         <td>
           <input id='input' type="checkbox">
         </td>
@@ -183,6 +183,7 @@
       $('#edit_box').css({
         'display': 'block'
       });
+      // 隐藏编辑按钮
       $('#edit').css({
         'display': 'none'
       });
@@ -190,24 +191,64 @@
 
     //  点击确定按钮
     $('.ok').click(function () {
-      $('#edit_box').css('display','none');
       if ($('#input').prop('checked')) {
-        var val = $('#name').val();
-        myChart.setOption({
-          title: {
-            text:'标题...'
-          },
-          series: {
-            data: [{
-            value: 55,
-            name: 'wj'
-          },{
-            value: 45,
-            name: 'zz'
-          }]
-          }
-        })
+          var val = $('#name').val();
+          // 获取输入框的值
+        var inp_arr=  $('input[type="checkbox"]:checked');
+        // console.log(inp_arr);
+        for(var i=0; i<inp_arr.length;i++){
+          // console.log(i);
+        }
+        console.log($('.tr')[0]);
+          // console.log($('input[type="checked"]:checked'));
+          myChart.setOption({
+              title: {
+                  text: '标题...'
+              },
+              series: {
+                  data: [{
+                      value: 335,
+                      name: '苹果'
+                  },
+                      {
+                          value: 310,
+                          name: '梨子'
+                      },
+                      {
+                          value: 234,
+                          name: '香蕉'
+                      },
+                      {
+                          value: 234,
+                          name: '1111'
+                      },
+                  ],
+              }
+          })
       }
+        // 点击确定按钮隐藏对话框
+        $('#edit_box').css('display','none');
+    })
+
+    // 点击+号添加一行
+    $('#add').click(function () {
+        var str='<tr class="tr">\n' +
+            '        <td>\n' +
+            '          <input id=\'input\' type="checkbox">\n' +
+            '        </td>\n' +
+            '        <td>\n' +
+            '          <input id=\'name\' type="text">\n' +
+            '        </td>\n' +
+            '        <td>\n' +
+            '          <input id=\'num\' type="text">\n' +
+            '        </td>\n' +
+            '      </tr>'
+        $('#table').append(str);
+    })
+
+    // 点击取消隐藏对话框
+    $('.cancle').click(function () {
+        $('#edit_box').css('display','none');
     })
   </script>
 </body>
